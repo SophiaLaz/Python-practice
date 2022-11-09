@@ -1,0 +1,45 @@
+# number 1
+n = int(input())
+for i in range(1, n + 1):
+    if i % 3 == 0:
+        if i % 5 == 0: print ('helloworld')
+        else:
+            print('hello')
+    elif i % 5 == 0:
+            print('world')
+    else:
+        print(i)
+
+# number 2
+string, count, count_max = [1, 1, 0, 1, 1], 0, 0
+for k in range(len(string)):
+    if string[k] == 1:
+        count += 1
+        if count > count_max:
+            count_max = count
+    else:
+        count = 0
+
+# number 3
+from numpy import append
+
+def spacing(lst):
+    left, right = lst[0], lst[0]
+    ans = []  # output array
+    for i in range(1, len(lst)):
+        if lst[i] == lst[i - 1] + 1:
+            right = lst[i]
+        else:
+            if right == left:
+                ans.append(str(left))
+            else:
+                ans.append(str(str(left) + '->' + str(right)))
+            left, right = lst[i], lst[i]
+    if right == left:
+        ans.append(str(left))
+    else:
+        ans.append(str(str(left) + '->' + str(right)))
+    print(ans)
+
+lst = [0, 1, 2, 4, 6, 7, 9]
+spacing(lst)
