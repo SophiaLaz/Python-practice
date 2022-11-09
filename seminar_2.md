@@ -1,6 +1,13 @@
 # Arrays
 
-## module 1: the sum of the elements of the main and side diagonals
+
++ [The sum of the elements of the main and side diagonals](#the-sum-of-the-elements-of-the-main-and-side-diagonals)
++ [Merge sort for 2 lines](#merge-sort-for-two-lines)
++ [Calculating squares for sorted string whith sorting at the end](#calculating-squares-for-sorted-string-whith-sorting-at-the-end)
++ [Reductions of repetitions](#reductions-of-repetitions)
++ [Calling functions](#calling-all-functions)
+
+## the sum of the elements of the main and side diagonals
 
 ```python
 def diag_sum(a):
@@ -12,7 +19,7 @@ def diag_sum(a):
             result += (a[i][i] + a[i][len(a) - 1 - i])
     return result
 ```
-## module 2: merge sort for 2 lines
+## merge sort for two lines
 
 ```python
 def merge(str_1, str_2):
@@ -34,7 +41,7 @@ def merge(str_1, str_2):
     return sort_arr
 ```
 
-## module 3: calculating squares for sorted string whith sorting at the end
+## calculating squares for sorted string whith sorting at the end
 ```python
 def square(numbers):
     for i in range(len(numbers)):
@@ -47,7 +54,7 @@ def square(numbers):
 
     return merge(negative, positive)
 ```
-## module 4: reductions of repetitions
+## reductions of repetitions
 ```python
 def cut(string):
     num, count, ans = string[0], 1, []
