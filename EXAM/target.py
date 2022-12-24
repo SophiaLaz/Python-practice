@@ -57,13 +57,13 @@ def one_deal(content):
         elif deal[j] == 'BANK:':
             raw_bank = int(deal[j + 1])
 
-    deal_titles = {
+    deal_dict = {
         "BANK": raw_bank,
         "Вход": raw_entry,
         "Таргет": raw_targets,
         "Выход": raw_close
     }
-    return deal_titles
+    return deal_dict
 
 
 def main():
