@@ -1,7 +1,7 @@
 class StrategyDeal:
     def __init__(self, entry, targets, close, bank):
         self.entry, self.targets, self.close, self.bank = entry, targets, close, bank
-
+        self.per = self.get_target_percents(self)
 
     def get_targets(self):
         return self.targets
@@ -13,7 +13,7 @@ class StrategyDeal:
 
     def get_target_banks(self):
         for i in range(len(self.targets)):
-            bank = round(self.bank * per[i], 3)
+            bank = round(self.bank * self.per[i], 3)
         return bank
 
     def __str__(self):
@@ -63,8 +63,6 @@ def main():
                 line = line.replace('BANK: ', '')
                 bank = int(line)
                 deal.bank = bank
-
-        print(deal.str)
 
     result = content
     write_data('out.txt', result)
