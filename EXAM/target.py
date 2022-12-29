@@ -1,5 +1,5 @@
 class StrategyDeal:
-    def __init__(self, entry, targets, close, bank):
+    def __init__(self, bank=None, entry=None, targets=None, close=None):
         self.bank = bank
         self.entry = entry
         self.targets = targets
@@ -28,9 +28,9 @@ class StrategyDeal:
 
 
 def read_data(file_name):
-    file = open(file_name)
-    content = file.read()
-    file.close()
+    self = open(file_name)
+    content = self.read().split("-----")
+    self.close()
     return content
 
 
@@ -41,43 +41,38 @@ def write_data(file_name, data):
     self.close()
 
 
-def one_deal(content):
-    deal, raw_targets = content.split(), []
-    for j in range(len(deal) - 1):
-        if deal[j] == 'Р’С…РѕРґ:':
-            raw_entry = float(deal[j + 1])
-        elif deal[j] == 'РўР°СЂРіРµС‚:':
-            k = j + 1
-            while deal[k] != 'Р’С‹С…РѕРґ:':
-                raw_targets.append(float(deal[k].replace(',', '')))
-                k += 1
+def prepare_data(deal):
+    lines = deal.split("\n")
 
-        elif deal[j] == 'Р’С‹С…РѕРґ:':
-            raw_close = float(deal[j + 1])
-        elif deal[j] == 'BANK:':
-            raw_bank = int(deal[j + 1])
+    raw_bank = list(filter(lambda x: x.startswith('BANK: '), lines))
+    raw_entry = list(filter(lambda x: x.startswith('Вход: '), lines))
+    raw_targets = list(filter(lambda x: x.startswith('Таргет: '), lines))
+    raw_close = list(filter(lambda x: x.startswith('Выход: '), lines))
 
-    deal_dict = {
-        "BANK": raw_bank,
-        "Вход": raw_entry,
-        "Таргет": raw_targets,
-        "Выход": raw_close
+    if len(raw_bank) != 1 or len(raw_entry) != 1 or len(raw_targets) != 1 or len(raw_close) != 1:
+        return None
+
+    deal_titles = {
+        "BANK": int(raw_bank[0][6:]),
+        "Вход": float(raw_entry[0][6:]),
+        "Таргет": list(map(float, raw_targets[0][8:].split(';'))),
+        "Выход": float(raw_close[0][7:])
     }
-    return deal_dict
+    return deal_titles
 
 
 def main():
-    content = read_data('deals.txt').split('-----')
+    content = read_data('deals.txt')
+
     result = []
     for raw_deal in content:
-        deal_dict = one_deal(raw_deal)
+        deal_dict = prepare_data(raw_deal)
         if deal_dict is not None:
             result.append(
-                StrategyDeal(deal_dict["Вход"], deal_dict["Таргет"], deal_dict["Выход"], deal_dict["BANK"])
+                StrategyDeal(deal_dict["BANK"], deal_dict["Вход"], deal_dict["Таргет"], deal_dict["Выход"])
             )
 
     write_data('out.txt', result)
-
 
 if __name__ == '__main__':
     main()
